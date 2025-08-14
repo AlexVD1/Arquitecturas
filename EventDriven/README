@@ -1,0 +1,14 @@
+Proyecto:
+📌 Sistema de Notificaciones en Tiempo Real.
+Descripción:
+Cualquier acción de usuario dispara eventos que activan otros procesos (envío de email, SMS, push).
+
+Stack:
+
+Backend: Node.js con NestJS o Express.
+
+Broker de mensajes: Apache Kafka o RabbitMQ.
+
+Base de datos: MongoDB o PostgreSQL.
+
+WebSocket: Socket.io para actualizaciones instantáneas en el cliente.

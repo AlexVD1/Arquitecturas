@@ -1,0 +1,22 @@
+Proyecto:
+📌 API de Pedidos para E-commerce.
+Descripción:
+Backend para gestionar pedidos, con independencia de la base de datos y posibilidad de intercambiar proveedores externos fácilmente.
+
+Stack:
+
+Backend: Node.js con NestJS (ideal para modularidad).
+
+Base de datos: PostgreSQL con TypeORM.
+
+Testing: Jest.
+
+Integraciones: Pago con Stripe como un adapter externo.
+
+Estructura típica:
+
+/application -> Casos de uso (lógica pura)
+/domain      -> Entidades y reglas de negocio
+/infrastructure -> DB adapters, API REST, integraciones
+/interfaces  -> Puertos (interfaces que definen la comunicación)
+main.ts

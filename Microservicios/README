@@ -1,0 +1,22 @@
+Proyecto:
+📌 Plataforma de Reservas de Hoteles.
+Descripción:
+Separar servicios por dominio: autenticación, reservas, pagos y notificaciones. Cada microservicio con su propia base de datos.
+
+Stack:
+
+Backend: Node.js con Express o NestJS.
+
+Comunicación interna: gRPC o RabbitMQ (mensajería).
+
+Base de datos:
+
+Auth: PostgreSQL
+
+Reservas: MongoDB
+
+Pagos: MySQL
+
+Orquestación: Docker Compose o Kubernetes.
+
+Gateway API: Usar Express Gateway o Apollo Gateway (si es GraphQL).

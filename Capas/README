@@ -1,0 +1,19 @@
+Descripción: Divide la aplicación en capas lógicas (Presentación, Negocio, Persistencia).
+Proyecto : API REST de inventario
+Funcionalidad:
+
+Gestión de productos (stock, precios, categorías)
+
+Control de entradas y salidas
+
+Reportes de inventario
+
+Stack:
+
+Backend: Node.js + Express.js
+
+Base de datos: PostgreSQL con Sequelize
+
+Testing: Mocha + Chai
+
+Documentación: Swagger

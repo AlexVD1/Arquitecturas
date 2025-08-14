@@ -1,0 +1,14 @@
+Proyecto:
+📌 Procesador de Imágenes a la Medida.
+Descripción:
+Subida de imágenes a un bucket que se procesan y generan miniaturas automáticamente.
+
+Stack:
+
+Backend: Node.js en AWS Lambda.
+
+Almacenamiento: Amazon S3.
+
+Procesamiento: Sharp (librería de imágenes en Node).
+
+Infraestructura: AWS API Gateway, AWS Lambda, DynamoDB.
