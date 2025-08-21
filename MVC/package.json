@@ -1,0 +1,23 @@
+{
+  "name": "mvc",
+  "version": "1.0.0",
+  "description": "Ejemplo practico para arquitectura MVC, creando un proyecto de Sistema de Gestion de Tareas",
+  "main": "app.js",
+  "type":"module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "author": "Alejandro Villafranco Desiderio",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "express-sessions": "^1.0.1",
+    "express-validator": "^7.2.1",
+    "mongodb": "^6.18.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
