@@ -4,29 +4,49 @@ class tasksController{
     constructor(){}
 
     async create(req,res){
-        const taskData= await tasksModel.createTask(req.body);
-        res.status(201).send(taskData);
+       try {
+            const taskData= await tasksModel.createTask(req.body);
+            res.status(201).send(taskData);
+       } catch (error) {
+            next(error); // Pass the error to the error handling middleware
+       }
     }
     async getAll(req,res){
-        const taskData= await tasksModel.getAllTasks(req.body);
-        res.status(201).send(taskData);
+        try {
+            const taskData= await tasksModel.getAllTasks(req.body);
+            res.status(201).send(taskData);
+        } catch (error) {
+            next(error); // Pass the error to the error handling middleware
+       }
     }
     async getOne(req,res){
-        const {id} = req.params; // Assuming the ID is passed as a URL parameter
-        const taskData= await tasksModel.getTaskById(id);
-        res.status(201).send(taskData);
+        try {
+            const {id} = req.params; // Assuming the ID is passed as a URL parameter
+            const taskData= await tasksModel.getTaskById(id);
+            res.status(201).send(taskData);
+        } catch (error) {
+            next(error); // Pass the error to the error handling middleware
+       }
     }
 
     async update(req,res){
-        const {id} = req.params; 
-        const taskData= await tasksModel.updateTask(id, req.body);
-        res.status(201).send(taskData);
+        try {
+            const {id} = req.params; 
+            const taskData= await tasksModel.updateTask(id, req.body);
+            res.status(201).send(taskData);
+        } catch (error) {
+            next(error); // Pass the error to the error handling middleware
+       }
     }
 
     async delete(req,res){
-       const {id} = req.params; 
-        const taskData= await tasksModel.deleteTask(id, req.body);
-        res.status(206).send(taskData); 
+       try {
+            const {id} = req.params; 
+            const taskData= await tasksModel.deleteTask(id, req.body);
+            res.status(206).send(taskData); 
+        } catch (error) {
+            next(error); // Pass the error to the error handling middleware
+       }
     }
 
     

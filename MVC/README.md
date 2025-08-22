@@ -20,3 +20,12 @@ Estructura de ficheros MVC:
 /routes      -> Definición de rutas
 /public      -> CSS, JS, imágenes
 server.js
+
+Esquema Tarea:
+{
+"user_id":1,
+"title": "Clareo de alarmas",
+"description": "Actividad para ejecutar rutina clareo semanal",
+"category": "Others",
+"status": "Not Started"
+}

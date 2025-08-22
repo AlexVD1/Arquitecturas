@@ -1,31 +1,26 @@
-import dbClient from "../config/dbClient.js"; 
-import { ObjectId } from "mongodb";
+import Task from '../schemas/taskScheme.js';
+import mongoose from 'mongoose';
 
 class tasksModel {
 
     async createTask(taskData) {
-        const colTasks = dbClient.db.collection('tasks');
-        return await colTasks.insertOne(taskData); 
+       return await Task.create(taskData);
     }
 
     async getAllTasks(){
-        const colTasks = dbClient.db.collection('tasks');
-        return await colTasks.find({}).toArray();
+        return await Task.find();
     }
 
     async getTaskById(id){
-        const colTasks = dbClient.db.collection('tasks');
-        return await colTasks.findOne({ _id: new ObjectId(id) });
+        return await Task.findById({_id: new mongoose.Types.ObjectId(id)});
     }
 
     async updateTask(id, taskData) {
-        const colTasks = dbClient.db.collection('tasks');
-        return await colTasks.updateOne({ _id: new ObjectId(id) }, { $set: taskData });
+        return await Task.findByIdAndUpdate({_id: new mongoose.Types.ObjectId(id)}, taskData, { new: true });
     }
 
     async deleteTask(id) {
-        const colTasks = dbClient.db.collection('tasks');
-        return await colTasks.deleteOne({ _id: new ObjectId(id) });
+        return await Task.findByIdAndDelete({_id: new mongoose.Types.ObjectId(id)});
     }
 }
 
