@@ -3,6 +3,7 @@ import 'dotenv/config'; //Importa variables de entorno
 import routesTasks from './routes/tasksRoute.js';
 import body_parser from 'body-parser';
 import dbClient from './config/dbClient.js';
+import routesUsers from './routes/usersRoute.js';
 
 //GENERA INSTANCIA DE EXPRESS Y OBTIENE EL PUERTO
 const app = express();
@@ -12,6 +13,7 @@ app.use(body_parser.json()); // Middleware para parsear JSON
 app.use(body_parser.urlencoded({ extended: true })); // Middleware para parsear datos URL-encoded
 
 app.use('/tasks',routesTasks);
+app.use('/users',routesUsers);
 
 // Middleware para manejar errores
 app.use((err, res) => {
