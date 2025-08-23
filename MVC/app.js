@@ -4,16 +4,23 @@ import routesTasks from './routes/tasksRoute.js';
 import body_parser from 'body-parser';
 import dbClient from './config/dbClient.js';
 import routesUsers from './routes/usersRoute.js';
+import fs from 'fs';
 
 //GENERA INSTANCIA DE EXPRESS Y OBTIENE EL PUERTO
 const app = express();
 const port = process.env.PORT || 4000;
 
+//DOCUMENTACION CON SWAGGER
+import swaggerUI from 'swagger-ui-express';
+const swaggerDocumentation = JSON.parse(fs.readFileSync("./swagger.json", "utf8"));
+
 app.use(body_parser.json()); // Middleware para parsear JSON
 app.use(body_parser.urlencoded({ extended: true })); // Middleware para parsear datos URL-encoded
 
+//RUTAS
 app.use('/tasks',routesTasks);
 app.use('/users',routesUsers);
+app.use('/api-doc',swaggerUI.serve, swaggerUI.setup(swaggerDocumentation));
 
 // Middleware para manejar errores
 app.use((err, res) => {

@@ -5,7 +5,8 @@ class tasksController{
 
     async create(req,res){
        try {
-            const taskData= await tasksModel.createTask(req.body);
+            const {user_id, title, description, category, status} = req.body;
+            const taskData= await tasksModel.createTask({user_id, title, description, category, status} );
             res.status(201).send(taskData);
        } catch (error) {
             next(error); // Pass the error to the error handling middleware
@@ -31,8 +32,9 @@ class tasksController{
 
     async update(req,res){
         try {
+            const {user_id, title, description, category, status} = req.body;
             const {id} = req.params; 
-            const taskData= await tasksModel.updateTask(id, req.body);
+            const taskData= await tasksModel.updateTask(id, {user_id, title, description, category, status} );
             res.status(201).send(taskData);
         } catch (error) {
             next(error); // Pass the error to the error handling middleware
