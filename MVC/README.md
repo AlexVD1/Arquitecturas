@@ -14,12 +14,40 @@ Autenticación: Passport.js o JWT.
 
 Estructura de ficheros MVC:
 
-/models      -> Definición de datos (Tarea, Usuario)
-/views       -> Plantillas HTML/EJS
-/controllers -> Lógica de negocio
-/routes      -> Definición de rutas
-/public      -> CSS, JS, imágenes
-server.js
+```
+└── 📁MVC
+    └── 📁config
+        ├── dbClient.js
+    └── 📁controllers
+        ├── tasksController.js
+        ├── usersController.js
+    └── 📁helpers
+        ├── authentication.js
+    └── 📁models
+        ├── taskModel.js
+        ├── userModel.js
+    └── 📁public
+        └── 📁js
+            ├── functions.js
+        ├── task.png
+    └── 📁routes
+        ├── tasksRoute.js
+        ├── usersRoute.js
+    └── 📁schemas
+        ├── taskScheme.js
+        ├── userSchema.js
+    └── 📁views
+        ├── login.ejs
+        ├── profile.ejs
+        ├── register.ejs
+        ├── tasks.ejs
+    ├── .env
+    ├── app.js
+    ├── package-lock.json
+    ├── package.json
+    ├── README.md
+    ├── swagger.js
+    └── swagger.json
 
 Esquema Tarea:
 {
