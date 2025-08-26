@@ -12,7 +12,7 @@ class usersController{
             
             const existingUser=await userModel.getOne({email});
             if(existingUser){
-                return res.status(400).send({error:'User already exists'});
+                return res.status(400).render("register",{error:'User already exists'});
             }
 
             const hashedPassword= await bcrypt.hash(password,10);
@@ -24,11 +24,14 @@ class usersController{
                 password: hashedPassword
             });
 
-            res.status(201).json(userData);
+            res.redirect('/users/login');
        } catch (error) {
-            console.log( error);
-            next(error); // Pass the error to the error handling middleware
+            console.error(error); // Pass the error to the error handling middleware
        }
+    }
+
+    async registerView(req,res){
+        res.render("register",{user:null});
     }
 
     async login(req,res){
@@ -37,34 +40,43 @@ class usersController{
             
             const existingUser=await userModel.getOne({email});
             if(!existingUser){
-                return res.status(400).json({error:'User not found'});
+                return res.status(400).render("login",{error:'User not found'});
             }
 
             const isPasswordValid = await bcrypt.compare(password,existingUser.password);
 
             if(!isPasswordValid){
-                return res.status(400).json({error: 'Invalid password'});
+                return res.status(400).render("login",{error: 'Invalid password'});
             }
 
-            const token= generateToken(email);
+            const token= generateToken(existingUser._id);
+            res.cookie('token',token,{httponly:true});
 
-
-            return res.status(200).json({message:'Login successful',token});
+            res.redirect('/users/profile');
         }
         catch(error){
             console.log(error);
-            next(error); // Pass the error to the error handling middleware
+            console.error(error); // Pass the error to the error handling middleware
         }
     }
 
     async profile(req,res){
             try {
-                const userData= await userModel.getOne({email: req.emailConnected});
-                res.status(201).send(userData);
+                const userData= await userModel.getUserById(req.idConnected);
+                res.status(201).render("profile",{user:userData});
             } catch (error) {
-                next(error); // Pass the error to the error handling middleware
+                console.error(error); // Pass the error to the error handling middleware
            }
         }
+
+    async loginView(req,res){
+        res.render("login",{user:null});
+    }
+
+    async logout(req,res){
+        res.clearCookie('token');
+        res.redirect('/users/login');
+    }
     
 }
 export default new usersController();

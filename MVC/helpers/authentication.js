@@ -1,12 +1,13 @@
 import jwt from 'jsonwebtoken';
 import 'dotenv/config.js';
 
-export function generateToken(email){
-    return jwt.sign({email},process.env.JWT_SECRET,{expiresIn: '1h'});
+export function generateToken(userId){
+    return jwt.sign({id: userId.toString()},process.env.JWT_SECRET,{expiresIn: '1h'});
 }
 
 export function verifyToken(req,res,next) {
-    const token = req.header('Authorization')?.replace('Bearer ','');
+    
+    const token = req.cookies.token || req.header('Authorization')?.replace('Bearer ',''); //Obtiene token de la cookie o del header Authorization
 
     if(!token){
         return res.status(401).send('Access denied. No token provided.');
@@ -15,7 +16,7 @@ export function verifyToken(req,res,next) {
     try{
         const verifiedToken = jwt.verify(token,process.env.JWT_SECRET);
         if(verifiedToken){
-            req.emailConnected=verifiedToken.email; 
+            req.idConnected=verifiedToken.id; 
             return next(); // Call the next middleware or route handler
         }
     }

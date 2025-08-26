@@ -4,10 +4,12 @@ import { verifyToken } from '../helpers/authentication.js';
 
 const router =express.Router();
 
-router.post('/',tasksController.create);
+router.post('/',verifyToken,tasksController.create);
 router.get('/:id',tasksController.getOne);
 router.get('/',tasksController.getAll);
 router.put('/:id',verifyToken,tasksController.update);
-router.delete('/:id',verifyToken,tasksController.delete);
+router.post('/delete/:id',verifyToken,tasksController.delete);
+
+router.get('/user/:id', verifyToken,tasksController.getUserTasks);
 
 export default router;

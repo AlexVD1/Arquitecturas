@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Tasks</title>
+  <link rel="icon" type="image/png" href="/task.png">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">MiApp</a>
+      <div class="d-flex">
+        <form action="/users/profile" method="GET">
+          <button type="submit" class="btn btn-outline-light">Profile</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    <% if (user) { %>
+      <h1 class="mb-4">Task of <%= user.name %> </h1>
+      <p class="text-muted"><%= user.email %></p>
+
+      <!-- Botón para abrir/cerrar el formulario -->
+      <p>
+        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#addTaskForm" aria-expanded="false" aria-controls="addTaskForm">
+          ➕ Add New Task
+        </button>
+      </p>
+
+      <!-- Formulario colapsable -->
+      <div class="collapse" id="addTaskForm">
+        <div class="card card-body">
+          <form action="/tasks" method="POST">
+            <div class="mb-3">
+              <label for="title" class="form-label">Title</label>
+              <input type="text" class="form-control" id="title" name="title" required>
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="category" class="form-label">Category</label>
+              <select class="form-select" id="category" name="category" required>
+                <option value="Others">Others</option>
+                <option value="Monitoring">Monitoring</option>
+                <option value="Maintenance">Maintenance</option>
+                <option value="Projects">Projects</option>
+                <option value="Incidents">Incidents</option>
+                <option value="Development">Development</option>
+                <option value="Analysis">Analysis</option>
+                 <option value="Routine">Routine</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="status" class="form-label">Status</label>
+              <select class="form-select" id="status" name="status" required>
+                <option value="Not Started">Not Started</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+                <option value="On Hold">On Hold</option>
+                <option value="Cancelled">Cancelled</option>
+                <option value="Deferred">Deferred</option>
+                <option value="Waiting for Review">Waiting for Review</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-success">Save Task</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Tabla de tareas -->
+      <div class="mt-5">
+        <table class="table table-striped table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Status</th>
+               <th>Category</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% tasks.forEach(task => { %>
+              <tr>
+                <td><%= task.title %></td>
+                <td><%= task.description %></td>
+                <td>
+                      <% switch (task.status) { 
+                          case 'Not Started': %>
+                            <span class="badge bg-secondary">Not Started</span>
+                      <%   break; case 'In Progress': %>
+                            <span class="badge bg-primary">In Progress</span>
+                      <%   break; case 'Completed': %>
+                            <span class="badge bg-success">Completed</span>
+                      <%   break; case 'On Hold': %>
+                            <span class="badge bg-warning text-dark">On Hold</span>
+                      <%   break; case 'Cancelled': %>
+                            <span class="badge bg-danger">Cancelled</span>
+                      <%   break; case 'Deferred': %>
+                            <span class="badge bg-info text-dark">Deferred</span>
+                      <%   break; case 'Waiting for Review': %>
+                            <span class="badge bg-dark">Waiting for Review</span>
+                      <%   break; default: %>
+                            <span class="badge bg-light text-dark">Unknown</span>
+                      <% } %>
+                  </td>
+                  <td><%= task.category %></td>
+                  <td>
+                    <!-- Botones -->
+                    <button type="button" class="btn btn-warning" onclick="toggleEditRow('edit-row-<%= task._id %>')">Edit Task</button>
+                    <form action="/tasks/delete/<%= task._id %>" method="POST" style="display:inline;">
+                      <button type="submit" class="btn btn-danger">Delete Task</button>
+                    </form>
+                  </td>
+                  </tr>
+                  <tr id="edit-row-<%= task._id %>" style="display:none; background:#f9f9f9;">
+                    <td colspan="4">
+                      <form onsubmit="return saveTask('<%= task._id %>')">
+                        <input type="text" id="edit-title-<%= task._id %>" value="<%= task.title %>" required>
+                        <input type="text" id="edit-desc-<%= task._id %>" value="<%= task.description %>" required>
+                        <select  id="edit-status-<%= task._id %>" defaultValue="<%= task.status %>">
+                          <option value="Not Started">Not Started</option>
+                          <option value="In Progress">In Progress</option>
+                          <option value="Completed">Completed</option>
+                          <option value="On Hold">On Hold</option>
+                          <option value="Cancelled">Cancelled</option>
+                          <option value="Deferred">Deferred</option>
+                          <option value="Waiting for Review">Waiting for Review</option>
+                        </select>
+                        <select id="edit-category-<%= task._id %>" defaultValue="<%= task.category %>">
+                          <option value="Others">Others</option>
+                          <option value="Monitoring">Monitoring</option>
+                          <option value="Maintenance">Maintenance</option>
+                          <option value="Projects">Projects</option>
+                          <option value="Incidents">Incidents</option>
+                          <option value="Development">Development</option>
+                          <option value="Analysis">Analysis</option>
+                          <option value="Routine">Routine</option>
+                        </select>
+                        <button type="submit" class="btn btn-success">Save</button>
+                        <button type="button" class="btn btn-secondary" onclick="cancelEdit('edit-row-<%= task._id %>')">Cancel</button>
+                      </form>
+                    </td>
+                  </tr>
+              
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } else { %>
+      <h2>No se encontraron tareas para este usuario.</h2>
+    <% } %>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Script para mostrar/ocultar -->
+  <script src="/js/functions.js"></script>
+</body>
+</html>

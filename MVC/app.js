@@ -5,17 +5,26 @@ import body_parser from 'body-parser';
 import dbClient from './config/dbClient.js';
 import routesUsers from './routes/usersRoute.js';
 import fs from 'fs';
+import cookieParser from "cookie-parser";
+import path from 'path';
 
 //GENERA INSTANCIA DE EXPRESS Y OBTIENE EL PUERTO
 const app = express();
 const port = process.env.PORT || 4000;
 
+// Configura EJS como el motor de plantillas
+app.set('view engine', 'ejs');
+
 //DOCUMENTACION CON SWAGGER
 import swaggerUI from 'swagger-ui-express';
 const swaggerDocumentation = JSON.parse(fs.readFileSync("./swagger.json", "utf8"));
 
+//SERVIR ARCHIVOS ESTATICOS
+app.use(express.static(path.join(process.cwd(), "public")));
+
 app.use(body_parser.json()); // Middleware para parsear JSON
 app.use(body_parser.urlencoded({ extended: true })); // Middleware para parsear datos URL-encoded
+app.use(cookieParser());//Middleware para parsear cookies
 
 //RUTAS
 app.use('/tasks',routesTasks);

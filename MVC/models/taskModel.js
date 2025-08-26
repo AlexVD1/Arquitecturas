@@ -22,6 +22,10 @@ class tasksModel {
     async deleteTask(id) {
         return await Task.findByIdAndDelete({_id: new mongoose.Types.ObjectId(id)});
     }
+
+    async getTasksByUser(user_id) {
+        return await Task.find({user_id: new mongoose.Types.ObjectId(user_id)});
+    }
 }
 
 export default new tasksModel;
