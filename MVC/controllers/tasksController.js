@@ -12,7 +12,7 @@ class tasksController{
         const { title, description, category, status} = req.body;
         await tasksModel.createTask({user_id, title, description, category, status} );
 
-        res.status(200);
+        res.status(201);
        } catch (error) {
         console.log(error);
             console.error(error); // Pass the error to the error handling middleware
@@ -26,15 +26,7 @@ class tasksController{
             console.error(error); // Pass the error to the error handling middleware
        }
     }
-    async getOne(req,res){
-        try {
-            const {id} = req.params; // Assuming the ID is passed as a URL parameter
-            const taskData= await tasksModel.getTaskById(id);
-            res.status(201).send(taskData);
-        } catch (error) {
-            console.error(error); // Pass the error to the error handling middleware
-       }
-    }
+
 
     async update(req,res){
         try {
