@@ -1,6 +1,7 @@
 import userModel from '../models/userModel.js';
 import bcrypt from 'bcrypt';
 import { generateToken } from '../helpers/authentication.js';
+import passwordEncrypter from '../helpers/passwordEncrypter.js';
 
 
 class usersController{
@@ -15,7 +16,7 @@ class usersController{
                 return res.status(400).render("register",{error:'User already exists'});
             }
 
-            const hashedPassword= await bcrypt.hash(password,10);
+            const hashedPassword= await passwordEncrypter.encrypt(password);
 
             const userData= await userModel.createUser({
                 name, 
@@ -43,7 +44,7 @@ class usersController{
                 return res.status(400).render("login",{error:'User not found'});
             }
 
-            const isPasswordValid = await bcrypt.compare(password,existingUser.password);
+            const isPasswordValid = await passwordEncrypter.compare(password, existingUser.password);
 
             if(!isPasswordValid){
                 return res.status(400).render("login",{error: 'Invalid password'});

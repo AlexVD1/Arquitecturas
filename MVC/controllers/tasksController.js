@@ -12,7 +12,7 @@ class tasksController{
         const { title, description, category, status} = req.body;
         await tasksModel.createTask({user_id, title, description, category, status} );
 
-        res.reload('/users/profile');
+        res.status(200);
        } catch (error) {
         console.log(error);
             console.error(error); // Pass the error to the error handling middleware
@@ -51,7 +51,7 @@ class tasksController{
        try {
             const {id} = req.params; 
             await tasksModel.deleteTask(id);
-            res.status(206).redirect('/users/profile'); 
+            res.status(206); 
         } catch (error) {
             console.error(error); // Pass the error to the error handling middleware
        }

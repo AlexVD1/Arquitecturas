@@ -21,7 +21,8 @@ export function verifyToken(req,res,next) {
         }
     }
     catch(error) {
-        return res.status(400).send('Invalid token');
+        console.log('Invalid token, please log in again.');
+        return res.status(400).redirect('/users/login');
     }
     
 

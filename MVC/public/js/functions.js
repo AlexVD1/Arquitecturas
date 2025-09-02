@@ -36,3 +36,46 @@
       alert('Error updating task');
     });
   }
+
+  async function addNewTask() {
+    const title = document.getElementById('newTitle').value;
+    const description = document.getElementById('newDescription').value; 
+    const status = document.getElementById('newStatus').value;      
+    const category = document.getElementById('newCategory').value;
+    fetch('/tasks/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'    
+      },
+      body: JSON.stringify({ title, description, status, category })
+    }).then(response => { 
+      if (response.ok) {
+        console.log('Task added reloading page');
+        location.reload(); // Recargar la página para ver los cambios
+      } else {
+        alert('Error reloading page');
+        console.log(response);
+      }     
+    }).catch(error => {
+      console.error('Error:', error);
+      alert('Error adding task');
+    });
+    return false; // Prevent form submission
+  }
+
+  function deleteTask(taskId) {
+    if (confirm('Are you sure you want to delete this task?')) {
+      fetch('/tasks/delete/' + taskId, {  
+        method: 'POST'
+      }).then(response => {
+        if (response.ok) {        
+          location.reload(); // Recargar la página para ver los cambios
+        } else {
+          alert('Error deleting task');
+        } 
+      }).catch(error => {     
+        console.error('Error:', error);
+        alert('Error deleting task');      });
+    }   
+    return false; // Prevent form submission
+  }
